@@ -38,6 +38,12 @@ ADD files/README /opt/README
 ADD files/command_help /opt/command_help
 RUN echo 'cat /opt/README' >> /etc/bash.bashrc
 
+RUN apt-get update && apt-get install -y \
+  p7zpip \
+  unzip ; \
+  rm -rf /var/lib/apt/lists/*
+
+
 RUN groupadd -g 1000 -r user && \
 useradd -u 1000 -r -g user -d /home/user -s /sbin/nologin -c "Nonroot User" user && \
 mkdir /home/user && \
