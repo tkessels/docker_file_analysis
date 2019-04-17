@@ -39,7 +39,7 @@ ADD files/command_help /opt/command_help
 RUN echo 'cat /opt/README' >> /etc/bash.bashrc
 
 RUN apt-get update && apt-get install -y \
-  p7zpip \
+  p7zip-full \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
