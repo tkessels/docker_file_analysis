@@ -23,7 +23,8 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/buffer/pyv8.git ; cd pyv8 ; python setup.py build && python setup.py install && cd .. && rm -rf pyv8
 RUN git clone https://github.com/buffer/libemu.git ; cd libemu ; autoreconf -v -i && ./configure --prefix=/opt/libemu && make install && cd .. && rm -rf libemu2
 RUN pip install pylibemu
-
+RUN pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
+RUN pip install -U https://github.com/decalage2/oletools/archive/master.zip
 RUN apt-get update && apt-get install -y exiftool ; rm -rf /var/lib/apt/lists/*
 
 RUN chmod +x /opt/didierstevenssuite/*py
