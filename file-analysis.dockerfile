@@ -2,7 +2,6 @@ FROM ubuntu:16.04
 MAINTAINER tabledevil
 
 USER root
-
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/jesparza/peepdf /opt/peepdf
 RUN git clone https://github.com/DidierStevens/DidierStevensSuite /opt/didierstevenssuite
@@ -40,6 +39,7 @@ RUN echo 'cat /opt/README' >> /etc/bash.bashrc
 
 RUN apt-get update && apt-get install -y \
   p7zip-full \
+  language-pack-de \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
@@ -54,6 +54,7 @@ useradd -u 1001 -r -g nonroot -d /home/nonroot -s /sbin/nologin -c "Nonroot User
 mkdir /home/nonroot && \
 chown -R nonroot:nonroot /home/nonroot
 
+ENV LANG de_DE.UTF-8
 WORKDIR /home/nonroot/
 USER nonroot
 WORKDIR /home/nonroot/

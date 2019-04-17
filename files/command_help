@@ -39,8 +39,12 @@ pdf-parser.py -d <extracted-filename> -f -o <obj-id> <pdf-file>
 
 
 ## pdftk
-#Dateien extrahieren
+#Dateien aus PDF extrahieren
 pdftk <pdf-file> unpack_files
+
+#Dateien aus passwortgeschütztem PDF extrahieren
+pdftk <pdf-file> input_pw <password> unpack_files
+
 
 #PDF - Plätten (javascript und andere objekte entfernen)
 #Dieser Prozess ist anschließend zu überprüfen
