@@ -41,6 +41,7 @@ RUN echo 'cat /opt/README' >> /etc/bash.bashrc
 RUN apt-get update && apt-get install -y \
   p7zip-full \
   language-pack-de \
+  mpack \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
