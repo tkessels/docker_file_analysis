@@ -56,3 +56,6 @@ pdftk <pdf-file> output fixed<original_filename>
 ##convert
 #PDF - in TIFF Plätten
 convert <pdf-file> <original_filename>.tiff
+
+#PDF - Version Downgrade
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=<VERSION> -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
