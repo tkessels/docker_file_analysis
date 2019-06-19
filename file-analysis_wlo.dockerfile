@@ -43,6 +43,7 @@ RUN apt-get update && apt-get install -y \
   language-pack-de \
   mpack \
   libreoffice \
+  python-yara \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 

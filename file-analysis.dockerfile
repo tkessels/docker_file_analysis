@@ -42,6 +42,7 @@ RUN apt-get update && apt-get install -y \
   p7zip-full \
   language-pack-de \
   mpack \
+  python-yara \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
