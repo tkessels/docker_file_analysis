@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
   language-pack-de \
   mpack \
   python-yara \
+  exiftool \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
@@ -30,7 +31,6 @@ RUN git clone https://github.com/buffer/libemu.git ; cd libemu ; autoreconf -v -
 RUN pip install pylibemu
 RUN pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
 RUN pip install -U https://github.com/decalage2/oletools/archive/master.zip
-RUN apt-get update && apt-get install -y exiftool ; rm -rf /var/lib/apt/lists/*
 RUN yes | pip uninstall pyparsing ; pip install pyparsing==2.3.0
 RUN chmod +x /opt/didierstevenssuite/*py
 RUN ln -s /opt/peepdf/peepdf.py /bin/peepdf.py
