@@ -17,7 +17,12 @@ RUN apt-get update && apt-get install -y \
   python-pip \
   libboost-python-dev \
   libboost-thread-dev \
-  libtool ; \
+  libtool \
+  p7zip-full \
+  language-pack-de \
+  mpack \
+  python-yara \
+  unzip ; \
   rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/buffer/pyv8.git ; cd pyv8 ; python setup.py build && python setup.py install && cd .. && rm -rf pyv8
@@ -38,15 +43,6 @@ ADD files/README /opt/README
 ADD files/command_help /opt/command_help
 RUN echo 'cat /opt/README' >> /etc/bash.bashrc
 
-RUN apt-get update && apt-get install -y \
-  p7zip-full \
-  language-pack-de \
-  mpack \
-  python-yara \
-  unzip ; \
-  rm -rf /var/lib/apt/lists/*
-
-
 RUN groupadd -g 1000 -r user && \
 useradd -u 1000 -r -g user -d /home/user -s /sbin/nologin -c "Nonroot User" user && \
 mkdir /home/user && \
@@ -56,6 +52,7 @@ RUN groupadd -g 1001 -r nonroot && \
 useradd -u 1001 -r -g nonroot -d /home/nonroot -s /sbin/nologin -c "Nonroot User" nonroot && \
 mkdir /home/nonroot && \
 chown -R nonroot:nonroot /home/nonroot
+
 
 ENV LANG de_DE.UTF-8
 WORKDIR /home/nonroot/
