@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
   mpack \
   python-yara \
   exiftool \
+  libreoffice \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
