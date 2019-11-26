@@ -58,7 +58,6 @@ chown -R nonroot:nonroot /home/nonroot
 
 
 ENV LANG de_DE.UTF-8
-WORKDIR /home/nonroot/
 USER nonroot
-WORKDIR /home/nonroot/
+WORKDIR /data
 CMD /bin/bash
