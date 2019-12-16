@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
   exiftool \
   libreoffice \
   ruby \
+  pev \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
