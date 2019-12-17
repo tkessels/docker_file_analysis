@@ -47,6 +47,12 @@ ADD files/README /opt/README
 ADD files/command_help /opt/command_help
 RUN echo 'cat /opt/README' >> /etc/bash.bashrc
 
+RUN apt-get update && apt-get install -y libssl-dev wget ; \
+  rm -rf /var/lib/apt/lists/*
+
+RUN wget -O- "https://netcologne.dl.sourceforge.net/project/pev/pev-0.80/pev-0.80.tar.gz" | tar -xvz  && cd pev && make && make install && cd .. && rm -rf pev
+RUN ln -v /usr/local/lib/libpe* /usr/lib/
+
 RUN groupadd -g 1000 -r user && \
 useradd -u 1000 -r -g user -d /home/user -s /sbin/nologin -c "Nonroot User" user && \
 mkdir /home/user && \
