@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y \
   python-yara \
   exiftool \
   libreoffice \
+  unoconv \
   ruby \
   pev \
   unzip ; \
