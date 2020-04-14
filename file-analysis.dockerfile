@@ -28,6 +28,8 @@ RUN apt-get update && apt-get install -y \
   ruby \
   pev \
   osslsigncode \
+  docx2txt \
+  catdoc \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
