@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER tabledevil
+LABEL maintainer="tabledevil"
 
 USER root
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
   imagemagick \
   python-pil \
   python-pip \
+  python3-pip \
   libboost-python-dev \
   libboost-thread-dev \
   libtool \
@@ -30,12 +31,16 @@ RUN apt-get update && apt-get install -y \
   osslsigncode \
   docx2txt \
   catdoc \
+  mc \
   unzip ; \
   rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/buffer/pyv8.git ; cd pyv8 ; python setup.py build && python setup.py install && cd .. && rm -rf pyv8
 RUN git clone https://github.com/buffer/libemu.git ; cd libemu ; autoreconf -v -i && ./configure --prefix=/opt/libemu && make install && cd .. && rm -rf libemu2
+RUN pip install --upgrade pip
+RUN easy_install -U pip
 RUN pip install pylibemu==0.5.8
+RUN python3 -m pip install psutil unotools
 RUN pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
 RUN pip install -U https://github.com/decalage2/oletools/archive/master.zip
 RUN gem install origami
