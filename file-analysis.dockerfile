@@ -1,66 +1,67 @@
-FROM ubuntu:16.04
+FROM kalilinux/kali-rolling
 LABEL maintainer="tabledevil"
 
 USER root
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Berlin
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+  autoconf \
+  catdoc \
+  docx2txt \
+  exiftool \
+  git \
+  imagemagick \
+  libboost-python-dev \
+  libboost-thread-dev \
+  libreoffice \
+  libssl-dev \
+  libtool \
+  mc \
+  mpack \
+  osslsigncode \
+  p7zip-full \
+  pdftk \
+  pev \
+  pkg-config \
+  python \
+  python3 \
+  python3-lxml \
+  python3-pip \
+  ruby \
+  unoconv \
+  unzip \
+  wget \
+  ; \
+  rm -rf /var/lib/apt/lists/*
+
+# Removed packages
+# python-pil
+# language-pack-de \
+
 RUN git clone https://github.com/jesparza/peepdf /opt/peepdf
 RUN git clone https://github.com/DidierStevens/DidierStevensSuite /opt/didierstevenssuite
 
-RUN apt-get update && apt-get install -y \
-  python3-lxml \
-  libemu2 \
-  pkg-config \
-  autoconf \
-  pdftk \
-  imagemagick \
-  python-pil \
-  python-pip \
-  python3-pip \
-  libboost-python-dev \
-  libboost-thread-dev \
-  libtool \
-  p7zip-full \
-  language-pack-de \
-  mpack \
-  python-yara \
-  exiftool \
-  libreoffice \
-  unoconv \
-  ruby \
-  pev \
-  osslsigncode \
-  docx2txt \
-  catdoc \
-  mc \
-  unzip ; \
-  rm -rf /var/lib/apt/lists/*
-
-RUN git clone https://github.com/buffer/pyv8.git ; cd pyv8 ; python setup.py build && python setup.py install && cd .. && rm -rf pyv8
-RUN git clone https://github.com/buffer/libemu.git ; cd libemu ; autoreconf -v -i && ./configure --prefix=/opt/libemu && make install && cd .. && rm -rf libemu2
+#RUN git clone https://github.com/buffer/pyv8.git ; cd pyv8 ; python setup.py build && python setup.py install && cd .. && rm -rf pyv8
+#RUN git clone https://github.com/buffer/libemu.git ; cd libemu ; autoreconf -v -i && ./configure --prefix=/opt/libemu && make install && cd .. && rm -rf libemu2
 RUN pip install --upgrade pip
-RUN easy_install -U pip
-RUN pip install pylibemu==0.5.8
-RUN python3 -m pip install psutil unotools
-RUN pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
-RUN pip install -U https://github.com/decalage2/oletools/archive/master.zip
+#RUN easy_install -U pip
+#RUN pip install pylibemu==0.5.8
+RUN pip3 install psutil unotools oletools
+#RUN python -m pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
+#RUN python -m pip install -U https://github.com/decalage2/oletools/archive/master.zip
 RUN gem install origami
-RUN yes | pip uninstall pyparsing ; pip install pyparsing==2.3.0
+#RUN yes | pip uninstall pyparsing ; pip install pyparsing==2.3.0
 RUN chmod +x /opt/didierstevenssuite/*py
-RUN ln -s /opt/peepdf/peepdf.py /bin/peepdf.py
-RUN chmod +x /bin/peepdf.py
-RUN chmod 777 -R /opt/peepdf/
+#RUN ln -s /opt/peepdf/peepdf.py /bin/peepdf.py
+#RUN chmod +x /bin/peepdf.py
+#RUN chmod 777 -R /opt/peepdf/
 RUN sed -i '/PDF/s/"none"/"read|write"/' /etc/ImageMagick-6/policy.xml
 
-ENV PATH="/opt/didierstevenssuite/:${PATH}"
+ENV PATH="${PATH}:/opt/peepdf/:/opt/didierstevenssuite/"
 ADD files/README /opt/README
 ADD files/command_help /opt/command_help
 RUN echo 'cat /opt/README' >> /etc/bash.bashrc
-
-RUN apt-get update && apt-get install -y libssl-dev wget ; \
-  rm -rf /var/lib/apt/lists/*
-
-RUN wget -O- "https://netcologne.dl.sourceforge.net/project/pev/pev-0.80/pev-0.80.tar.gz" | tar -xvz  && cd pev && make && make install && cd .. && rm -rf pev
-RUN ln -v /usr/local/lib/libpe* /usr/lib/
 
 RUN groupadd -g 1000 -r user && \
 useradd -u 1000 -r -g user -d /home/user -s /sbin/nologin -c "Nonroot User" user && \
@@ -74,6 +75,6 @@ chown -R nonroot:nonroot /home/nonroot
 
 
 ENV LANG de_DE.UTF-8
-USER nonroot
+#USER nonroot
 WORKDIR /data
 CMD /bin/bash
