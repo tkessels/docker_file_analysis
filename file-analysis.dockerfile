@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
   imagemagick \
   libboost-python-dev \
   libboost-thread-dev \
+  libjpeg-dev \
   libreoffice \
   libssl-dev \
   libtool \
@@ -24,7 +25,6 @@ RUN apt-get update && apt-get install -y \
   pdftk \
   pev \
   pkg-config \
-  python \
   python3 \
   python3-lxml \
   python3-pip \
@@ -39,11 +39,12 @@ RUN apt-get update && apt-get install -y \
 # python-pil
 # language-pack-de \
 
-RUN git clone https://github.com/jesparza/peepdf /opt/peepdf
+#RUN git clone https://github.com/jesparza/peepdf /opt/peepdf
+
 RUN git clone https://github.com/DidierStevens/DidierStevensSuite /opt/didierstevenssuite
 
-RUN pip3 install --upgrade pip
-RUN pip3 install psutil unotools oletools
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install psutil unotools oletools
 
 #RUN python -m pip install -U https://github.com/decalage2/oletools/archive/master.zip
 RUN gem install origami
@@ -52,7 +53,7 @@ RUN chmod +x /opt/didierstevenssuite/*py
 
 RUN sed -i '/PDF/s/"none"/"read|write"/' /etc/ImageMagick-6/policy.xml
 
-ENV PATH="${PATH}:/opt/peepdf/:/opt/didierstevenssuite/"
+ENV PATH="${PATH}:/opt/didierstevenssuite/:/opt/pypy2.7-v7.3.5-linux64/bin"
 ADD files/README /opt/README
 ADD files/command_help /opt/command_help
 RUN echo 'cat /opt/README' >> /etc/bash.bashrc
@@ -60,10 +61,11 @@ RUN echo 'cat /opt/README' >> /etc/bash.bashrc
 ###  VIPERMONKEY
 ## install pypy
 RUN wget -O-  https://downloads.python.org/pypy/pypy2.7-v7.3.5-linux64.tar.bz2 | tar -C /opt/ -xvj
-RUN ln -s /opt/pypy2.7-v7.3.5-linux64/bin/pypy /usr/local/bin/pypy
+RUN ln -s $(which pypy) /usr/local/bin/python
 ## install and upgrade pip
 RUN pypy -m ensurepip
 RUN pypy -m pip install -U pip
+RUN pypy -m pip install -U peepdf
 RUN pypy -m pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
 RUN ln -s /opt/pypy2.7-v7.3.5-linux64/site-packages/vipermonkey/vmonkey.py /usr/local/bin/vmonkey
 RUN chmod +x /usr/local/bin/vmonkey
