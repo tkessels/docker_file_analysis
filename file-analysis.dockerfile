@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
   libtool \
   mc \
   mpack \
+  npm \
   osslsigncode \
   p7zip-full \
   pdftk \
@@ -35,21 +36,15 @@ RUN apt-get update && apt-get install -y \
   ; \
   rm -rf /var/lib/apt/lists/*
 
-# Removed packages
-# python-pil
-# language-pack-de \
-
-#RUN git clone https://github.com/jesparza/peepdf /opt/peepdf
-
+# OLETOOLS & DIDIERSTEVENS
 RUN git clone https://github.com/DidierStevens/DidierStevensSuite /opt/didierstevenssuite
+RUN chmod +x /opt/didierstevenssuite/*py
 
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install psutil unotools oletools
 
-#RUN python -m pip install -U https://github.com/decalage2/oletools/archive/master.zip
+# PDF
 RUN gem install origami
-#RUN yes | pip uninstall pyparsing ; pip install pyparsing==2.3.0
-RUN chmod +x /opt/didierstevenssuite/*py
 
 RUN sed -i '/PDF/s/"none"/"read|write"/' /etc/ImageMagick-6/policy.xml
 
@@ -66,9 +61,13 @@ RUN ln -s $(which pypy) /usr/local/bin/python
 RUN pypy -m ensurepip
 RUN pypy -m pip install -U pip
 RUN pypy -m pip install -U peepdf
-RUN pypy -m pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
-RUN ln -s /opt/pypy2.7-v7.3.5-linux64/site-packages/vipermonkey/vmonkey.py /usr/local/bin/vmonkey
-RUN chmod +x /usr/local/bin/vmonkey
+#RUN pypy -m pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
+#RUN ln -s /opt/pypy2.7-v7.3.5-linux64/site-packages/vipermonkey/vmonkey.py /usr/local/bin/vmonkey
+#RUN chmod +x /usr/local/bin/vmonkey
+
+### JS Sandbox
+RUN npm install box-js --global --production
+
 ### LATER
 #RUN git clone https://github.com/buffer/pyv8.git ; cd pyv8 ; python setup.py build && python setup.py install && cd .. && rm -rf pyv8
 #RUN git clone https://github.com/buffer/libemu.git ; cd libemu ; autoreconf -v -i && ./configure --prefix=/opt/libemu && make install && cd .. && rm -rf libemu2
