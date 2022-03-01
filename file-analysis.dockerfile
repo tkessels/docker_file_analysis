@@ -7,6 +7,7 @@ ENV TZ=Europe/Berlin
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y \
   autoconf \
+  busybox \
   catdoc \
   docx2txt \
   exiftool \
@@ -64,6 +65,8 @@ RUN pypy -m pip install -U peepdf
 #RUN pypy -m pip install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
 #RUN ln -s /opt/pypy2.7-v7.3.5-linux64/site-packages/vipermonkey/vmonkey.py /usr/local/bin/vmonkey
 #RUN chmod +x /usr/local/bin/vmonkey
+RUN wget -O- https://github.com/mandiant/capa/releases/download/v3.1.0/capa-v3.1.0-linux.zip | busybox unzip -d /usr/bin -
+RUN chmod +x /usr/bin/capa
 
 ### JS Sandbox
 RUN npm install box-js --global --production
